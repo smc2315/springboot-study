@@ -1,0 +1,27 @@
+ifndef::snippets[]
+:snippets: ./build/generated-snippets
+endif::[]
+= Spring REST Docs Practice Api Specification
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:author: eoneunal
+:email: eoneunal@tistory.com
+
+== 1. 회원
+=== 1.1. 저장
+==== 성공
+.request
+include::{snippets}/create-member-success/http-request.adoc[]
+
+.response
+include::{snippets}/create-member-success/http-response.adoc[]
+
+==== 실패
+.request
+include::{snippets}/create-member-fail/http-request.adoc[]
+
+.response
+include::{snippets}/create-member-fail/http-response.adoc[]
