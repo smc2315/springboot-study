@@ -2,6 +2,7 @@ package com.example.demo.member.controller;
 
 import com.example.demo.ApiDocument;
 import com.example.demo.global.error.ErrorResponse;
+import com.example.demo.global.error.exception.ErrorCode;
 import com.example.demo.member.controller.dto.MemberRequest;
 import com.example.demo.member.controller.dto.MemberResponse;
 import com.example.demo.member.service.MemberService;
@@ -42,7 +43,7 @@ public class MemberControllerTest extends ApiDocument {
         successResponse = MemberResponse.builder()
                 .message(SUCCESS_MESSAGE)
                 .build();
-        failResponse = ErrorResponse.
+        failResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
     }
     @Test
     public void create_member_success() throws Exception{

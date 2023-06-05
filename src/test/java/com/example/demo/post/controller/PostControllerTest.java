@@ -1,6 +1,8 @@
 package com.example.demo.post.controller;
 
 import com.example.demo.ApiDocument;
+import com.example.demo.global.error.ErrorResponse;
+import com.example.demo.global.error.exception.ErrorCode;
 import com.example.demo.post.controller.dto.PostRequest;
 import com.example.demo.post.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,6 +27,7 @@ class PostControllerTest extends ApiDocument {
     private static final String FAIL_MESSAGE = "fail";
 
     private PostRequest postRequest;
+    private ErrorResponse failResponse;
 
     @MockBean
     private PostService postService;
@@ -36,6 +39,7 @@ class PostControllerTest extends ApiDocument {
                 .content("테스트내용")
                 .writer("최용태")
                 .build();
+        failResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
     }
     @Test
     public void create_post_success() throws Exception{
@@ -62,6 +66,7 @@ class PostControllerTest extends ApiDocument {
                 .content(toJson(postRequest)));
         //then
         resultActions.andExpect(status().isBadRequest())
+                .andExpect(content().json(toJson(failResponse)))
                 .andDo(print())
                 .andDo(toDocument("create-post-fail"));
     }
