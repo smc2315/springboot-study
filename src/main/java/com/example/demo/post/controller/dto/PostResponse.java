@@ -1,4 +1,4 @@
-package com.example.demo.post.dto;
+package com.example.demo.post.controller.dto;
 
 import lombok.*;
 
@@ -6,10 +6,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PostRequest {
-
+public class PostResponse {
     private Long id;
     private String title;
     private String content;
     private String writer;
+    private int viewCnt;
 }
