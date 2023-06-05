@@ -1,7 +1,7 @@
 package com.example.demo.member.service;
 
-import com.example.demo.member.dto.MemberRequest;
-import com.example.demo.member.dto.MemberResponse;
+import com.example.demo.member.controller.dto.MemberRequest;
+import com.example.demo.member.controller.dto.MemberResponse;
 import org.springframework.stereotype.Service;
 
 @Service

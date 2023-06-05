@@ -1,8 +1,8 @@
 package com.example.demo.member.controller;
 
 import com.example.demo.ApiDocument;
-import com.example.demo.member.dto.MemberRequest;
-import com.example.demo.member.dto.MemberResponse;
+import com.example.demo.member.controller.dto.MemberRequest;
+import com.example.demo.member.controller.dto.MemberResponse;
 import com.example.demo.member.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.example.demo.member.dto;
+package com.example.demo.member.controller.dto;
 
 import lombok.*;
 
