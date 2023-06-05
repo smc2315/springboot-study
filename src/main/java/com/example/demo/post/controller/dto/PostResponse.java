@@ -7,9 +7,9 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostResponse {
+
     private Long id;
     private String title;
     private String content;
     private String writer;
-    private int viewCnt;
 }
