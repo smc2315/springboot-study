@@ -1,6 +1,7 @@
 package com.example.demo.member.controller;
 
 import com.example.demo.ApiDocument;
+import com.example.demo.global.error.ErrorResponse;
 import com.example.demo.member.controller.dto.MemberRequest;
 import com.example.demo.member.controller.dto.MemberResponse;
 import com.example.demo.member.service.MemberService;
@@ -27,7 +28,7 @@ public class MemberControllerTest extends ApiDocument {
 
     private MemberRequest memberRequest;
     private MemberResponse successResponse;
-    private MemberResponse failResponse;
+    private ErrorResponse failResponse;
 
     @MockBean
     private MemberService memberService;
@@ -41,9 +42,7 @@ public class MemberControllerTest extends ApiDocument {
         successResponse = MemberResponse.builder()
                 .message(SUCCESS_MESSAGE)
                 .build();
-        failResponse = MemberResponse.builder()
-                .message(FAIL_MESSAGE)
-                .build();
+        failResponse = ErrorResponse.
     }
     @Test
     public void create_member_success() throws Exception{
