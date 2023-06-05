@@ -1,4 +1,4 @@
-package com.example.demo.member.controller;
+package com.example.demo.global.error;
 
 import com.example.demo.member.controller.dto.MemberResponse;
 import org.springframework.http.ResponseEntity;
@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ControllerAdvice {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<MemberResponse> runtimeException() {
