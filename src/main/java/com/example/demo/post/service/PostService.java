@@ -55,7 +55,9 @@ public class PostService {
 
     public Long update(Long postId,PostUpdateRequest postUpdateRequest) {
 
-        return null;
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
+        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContent());
+        return postRepository.save(post).getId();
     }
 
     public void delete(long postId) {

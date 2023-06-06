@@ -26,4 +26,9 @@ public class Post {
 
     @NotNull
     private String writer;
+
+    public void update(String title, String content) {
+        this.title = title;
+        this. content = content;
+    }
 }
