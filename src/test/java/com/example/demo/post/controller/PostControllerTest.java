@@ -3,8 +3,10 @@ package com.example.demo.post.controller;
 import com.example.demo.ApiDocument;
 import com.example.demo.global.error.ErrorResponse;
 import com.example.demo.global.error.exception.ErrorCode;
+import com.example.demo.global.error.exception.NotFoundException;
 import com.example.demo.post.controller.dto.PostRequest;
 import com.example.demo.post.controller.dto.PostResponse;
+import com.example.demo.post.controller.dto.PostUpdateRequest;
 import com.example.demo.post.controller.dto.PostsResponse;
 import com.example.demo.post.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,10 +23,8 @@ import java.util.stream.LongStream;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.willReturn;
-import static org.mockito.BDDMockito.willThrow;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,6 +37,7 @@ class PostControllerTest extends ApiDocument {
 
     private PostRequest postRequest;
     private PostResponse postResponse;
+    private PostUpdateRequest postUpdateRequest;
     private PostsResponse postResponses;
     private ErrorResponse failResponse;
 
@@ -49,6 +50,10 @@ class PostControllerTest extends ApiDocument {
                 .title("테스트")
                 .content("테스트내용")
                 .writer("최용태")
+                .build();
+        postUpdateRequest = PostUpdateRequest.builder()
+                .title("테스트2")
+                .content("테스트내용2")
                 .build();
         postResponse = PostResponse.builder()
                 .id(1L)
@@ -104,9 +109,8 @@ class PostControllerTest extends ApiDocument {
         //given
         willReturn(postResponse).given(postService).getPost(anyLong());
         //when
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(postRequest)));
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1"));
+
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(content().json(toJson(postResponse)))
@@ -119,9 +123,8 @@ class PostControllerTest extends ApiDocument {
         //given
         willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).getPost(anyLong());
         //when
-        ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(toJson(postRequest)));
+        ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1"));
+
         //then
         resultActions.andExpect(status().isBadRequest())
                 .andExpect(content().json(toJson(failResponse)))
@@ -160,9 +163,55 @@ class PostControllerTest extends ApiDocument {
     @Test
     public void update_post_success() throws Exception{
         //given
-
+        willReturn(1L).given(postService).update(anyLong(),any(PostUpdateRequest.class));
         //when
-
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/posts/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(postUpdateRequest)));
         //then
+        resultActions.andExpect(status().isOk())
+                .andExpect(content().json(toJson(1)))
+                .andDo(print())
+                .andDo(toDocument("update-post-success"));
      }
+
+    @Test
+    public void update_post_fail() throws Exception{
+        //given
+        willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).update(anyLong(),any(PostUpdateRequest.class));
+        //when
+        ResultActions resultActions = mockMvc.perform(post("/api/v1/posts/update/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(toJson(postUpdateRequest)));
+        //then
+        resultActions.andExpect(status().isBadRequest())
+                .andExpect(content().json(toJson(failResponse)))
+                .andDo(print())
+                .andDo(toDocument("update-post-fail"));
+    }
+
+    @Test
+    public void delete_post_success() throws Exception{
+        //given
+        willDoNothing().given(postService).delete(anyLong());
+        //when
+        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/delete/1"));
+        //then
+        resultActions.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(toDocument("delete-post-success"));
+     }
+
+    @Test
+    public void delete_post_fail() throws Exception{
+        // given
+        willThrow(new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage())).given(postService).delete(anyLong());
+        // when
+        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/delete/1"));
+        // then
+        resultActions.andExpect(status().isNotFound())
+                .andExpect(content().json(toJson(failResponse)))
+                .andDo(print())
+                .andDo(toDocument("delete-post-fail"));
+    }
 }
