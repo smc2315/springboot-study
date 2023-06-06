@@ -2,6 +2,7 @@ package com.example.demo.post.service;
 
 import com.example.demo.post.controller.dto.PostRequest;
 import com.example.demo.post.controller.dto.PostResponse;
+import com.example.demo.post.controller.dto.PostUpdateRequest;
 import com.example.demo.post.controller.dto.PostsResponse;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,12 @@ public class PostService {
 
     public PostsResponse getPosts() {
         return null;
+    }
+
+    public Long update(Long postId,PostUpdateRequest postUpdateRequest) {
+        return null;
+    }
+
+    public void delete(long postId) {
     }
 }
