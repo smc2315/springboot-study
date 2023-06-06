@@ -7,6 +7,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostUpdateRequest {
+
     private String title;
     private String content;
 }
