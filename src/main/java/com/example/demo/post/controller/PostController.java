@@ -2,6 +2,7 @@ package com.example.demo.post.controller;
 
 import com.example.demo.post.controller.dto.PostRequest;
 import com.example.demo.post.controller.dto.PostResponse;
+import com.example.demo.post.controller.dto.PostUpdateRequest;
 import com.example.demo.post.controller.dto.PostsResponse;
 import com.example.demo.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,10 @@ public class PostController {
     @GetMapping
     public ResponseEntity<PostsResponse> getPosts() {
         return ResponseEntity.ok().body(postService.getPosts());
+    }
+
+    @PostMapping("/update/{postId}")
+    public ResponseEntity<Long> update(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
+        return ResponseEntity.ok().body(postService.update(postId,postUpdateRequest));
     }
 }
