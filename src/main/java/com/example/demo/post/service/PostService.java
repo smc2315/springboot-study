@@ -22,13 +22,11 @@ public class PostService {
     private final PostRepository postRepository;
 
     public Long create(PostRequest postRequest) {
-
         Post post = postRequest.toEntity();
         return postRepository.save(post).getId();
     }
 
     public PostResponse getPost(long postId) {
-
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
         return PostResponse.builder()
                 .id(findPost.getId())
@@ -39,7 +37,6 @@ public class PostService {
     }
 
     public PostsResponse getPosts() {
-
         List<Post> posts = postRepository.findAll();
         return PostsResponse.builder()
                 .postResponses(posts.stream()
@@ -54,12 +51,12 @@ public class PostService {
     }
 
     public Long update(Long postId,PostUpdateRequest postUpdateRequest) {
-
         Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
         post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContent());
         return postRepository.save(post).getId();
     }
 
     public void delete(long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
     }
 }
