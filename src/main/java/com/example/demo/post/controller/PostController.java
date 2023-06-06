@@ -35,4 +35,10 @@ public class PostController {
     public ResponseEntity<Long> update(@PathVariable Long postId, @RequestBody PostUpdateRequest postUpdateRequest) {
         return ResponseEntity.ok().body(postService.update(postId,postUpdateRequest));
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+        postService.delete(postId);
+        return ResponseEntity.ok().build();
+    }
 }

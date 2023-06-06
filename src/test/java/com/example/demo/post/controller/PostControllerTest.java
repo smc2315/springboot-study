@@ -195,7 +195,7 @@ class PostControllerTest extends ApiDocument {
         //given
         willDoNothing().given(postService).delete(anyLong());
         //when
-        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/delete/1"));
+        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/1"));
         //then
         resultActions.andExpect(status().isOk())
                 .andDo(print())
@@ -207,9 +207,9 @@ class PostControllerTest extends ApiDocument {
         // given
         willThrow(new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage())).given(postService).delete(anyLong());
         // when
-        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/delete/1"));
+        ResultActions resultActions = mockMvc.perform(delete("/api/v1/posts/1"));
         // then
-        resultActions.andExpect(status().isNotFound())
+        resultActions.andExpect(status().isBadRequest())
                 .andExpect(content().json(toJson(failResponse)))
                 .andDo(print())
                 .andDo(toDocument("delete-post-fail"));
