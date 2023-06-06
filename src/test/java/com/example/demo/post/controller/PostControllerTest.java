@@ -46,6 +46,7 @@ class PostControllerTest extends ApiDocument {
 
     @BeforeEach
     void setUp() {
+
         postRequest = PostRequest.builder()
                 .title("테스트")
                 .content("테스트내용")
@@ -74,8 +75,9 @@ class PostControllerTest extends ApiDocument {
                 .build();
         failResponse = ErrorResponse.of(ErrorCode.INTERNAL_SERVER_ERROR);
     }
+
     @Test
-    public void create_post_success() throws Exception{
+    public void create_post_success() throws Exception {
         //given
         willReturn(1L).given(postService).create(any(PostRequest.class));
         //when
@@ -90,7 +92,7 @@ class PostControllerTest extends ApiDocument {
     }
 
     @Test
-    public void create_post_fail() throws Exception{
+    public void create_post_fail() throws Exception {
         //given
         willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).create(any(PostRequest.class));
         //when
@@ -105,26 +107,24 @@ class PostControllerTest extends ApiDocument {
     }
 
     @Test
-    public void get_post_success() throws Exception{
+    public void get_post_success() throws Exception {
         //given
         willReturn(postResponse).given(postService).getPost(anyLong());
         //when
         ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1"));
-
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(content().json(toJson(postResponse)))
                 .andDo(print())
                 .andDo(toDocument("get-post-success"));
-     }
+    }
 
     @Test
-    public void get_post_fail() throws Exception{
+    public void get_post_fail() throws Exception {
         //given
         willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).getPost(anyLong());
         //when
         ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/1"));
-
         //then
         resultActions.andExpect(status().isBadRequest())
                 .andExpect(content().json(toJson(failResponse)))
@@ -133,21 +133,20 @@ class PostControllerTest extends ApiDocument {
     }
 
     @Test
-    public void get_posts_success() throws Exception{
+    public void get_posts_success() throws Exception {
         //given
         willReturn(postResponses).given(postService).getPosts();
         //when
         ResultActions resultActions = mockMvc.perform(get("/api/v1/posts/"));
-
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(content().json(toJson(postResponses)))
                 .andDo(print())
                 .andDo(toDocument("get-posts-success"));
-     }
+    }
 
     @Test
-    public void get_posts_fail() throws Exception{
+    public void get_posts_fail() throws Exception {
         //given
         willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).getPosts();
         //when
@@ -161,9 +160,9 @@ class PostControllerTest extends ApiDocument {
     }
 
     @Test
-    public void update_post_success() throws Exception{
+    public void update_post_success() throws Exception {
         //given
-        willReturn(1L).given(postService).update(anyLong(),any(PostUpdateRequest.class));
+        willReturn(1L).given(postService).update(anyLong(), any(PostUpdateRequest.class));
         //when
         ResultActions resultActions = mockMvc.perform(post("/api/v1/posts/update/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -173,12 +172,12 @@ class PostControllerTest extends ApiDocument {
                 .andExpect(content().json(toJson(1)))
                 .andDo(print())
                 .andDo(toDocument("update-post-success"));
-     }
+    }
 
     @Test
-    public void update_post_fail() throws Exception{
+    public void update_post_fail() throws Exception {
         //given
-        willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).update(anyLong(),any(PostUpdateRequest.class));
+        willThrow(new IllegalArgumentException(FAIL_MESSAGE)).given(postService).update(anyLong(), any(PostUpdateRequest.class));
         //when
         ResultActions resultActions = mockMvc.perform(post("/api/v1/posts/update/1")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +190,7 @@ class PostControllerTest extends ApiDocument {
     }
 
     @Test
-    public void delete_post_success() throws Exception{
+    public void delete_post_success() throws Exception {
         //given
         willDoNothing().given(postService).delete(anyLong());
         //when
@@ -200,10 +199,10 @@ class PostControllerTest extends ApiDocument {
         resultActions.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(toDocument("delete-post-success"));
-     }
+    }
 
     @Test
-    public void delete_post_fail() throws Exception{
+    public void delete_post_fail() throws Exception {
         // given
         willThrow(new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage())).given(postService).delete(anyLong());
         // when
