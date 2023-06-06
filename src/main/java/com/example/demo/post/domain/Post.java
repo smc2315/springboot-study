@@ -26,5 +26,4 @@ public class Post {
 
     @NotNull
     private String writer;
-
 }
