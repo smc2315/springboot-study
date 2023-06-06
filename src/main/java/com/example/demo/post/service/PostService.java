@@ -57,6 +57,6 @@ public class PostService {
     }
 
     public void delete(long postId) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
+        postRepository.deleteById(postId);
     }
 }
