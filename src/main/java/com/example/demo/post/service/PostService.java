@@ -29,10 +29,7 @@ public class PostService {
     public PostResponse getPost(long postId) {
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
         return PostResponse.builder()
-                .id(findPost.getId())
-                .title(findPost.getTitle())
-                .content(findPost.getContent())
-                .writer(findPost.getWriter())
+                .post(findPost)
                 .build();
     }
 
@@ -41,10 +38,7 @@ public class PostService {
         return PostsResponse.builder()
                 .postResponses(posts.stream()
                         .map(post -> PostResponse.builder()
-                                .id(post.getId())
-                                .title(post.getTitle())
-                                .content(post.getContent())
-                                .writer(post.getWriter())
+                                .post(post)
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
