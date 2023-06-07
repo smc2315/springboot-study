@@ -27,7 +27,7 @@ public class PostService {
     }
 
     public PostResponse getPost(long postId) {
-        Post findPost = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
+        Post findPost = findPostById(postId);
         return PostResponse.builder()
                 .post(findPost)
                 .build();
@@ -45,12 +45,16 @@ public class PostService {
     }
 
     public Long update(Long postId,PostUpdateRequest postUpdateRequest) {
-        Post post = postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
-        post.update(postUpdateRequest.getTitle(), postUpdateRequest.getContent());
-        return postRepository.save(post).getId();
+        Post findPost = findPostById(postId);
+        findPost.update(postUpdateRequest.getTitle(), postUpdateRequest.getContent());
+        return postRepository.save(findPost).getId();
     }
 
     public void delete(long postId) {
         postRepository.deleteById(postId);
+    }
+
+    private Post findPostById(long postId) {
+        return postRepository.findById(postId).orElseThrow(() -> new NotFoundException(ErrorCode.ENTITY_NOT_FOUND.getMessage()));
     }
 }
