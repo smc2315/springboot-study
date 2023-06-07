@@ -8,6 +8,7 @@ import com.example.demo.post.controller.dto.PostRequest;
 import com.example.demo.post.controller.dto.PostResponse;
 import com.example.demo.post.controller.dto.PostUpdateRequest;
 import com.example.demo.post.controller.dto.PostsResponse;
+import com.example.demo.post.domain.Post;
 import com.example.demo.post.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,11 @@ class PostControllerTest extends ApiDocument {
 
     @BeforeEach
     void setUp() {
-
+        Post post = Post.builder()
+                .title("테스트")
+                .content("테스트내용")
+                .writer("최용태")
+                .build();
         postRequest = PostRequest.builder()
                 .title("테스트")
                 .content("테스트내용")
@@ -57,17 +62,15 @@ class PostControllerTest extends ApiDocument {
                 .content("테스트내용2")
                 .build();
         postResponse = PostResponse.builder()
-                .id(1L)
-                .title("테스트")
-                .content("테스트내용")
-                .writer("최용태")
+                .post(post)
                 .build();
         List<PostResponse> postResponseList = LongStream.rangeClosed(1, 5)
                 .mapToObj(n -> PostResponse.builder()
-                        .id(n)
-                        .title("테스트" + n)
-                        .content("테스트내용" + n)
-                        .writer("최용태" + n)
+                        .post(Post.builder()
+                                .title("테스트" + n)
+                                .content("테스트내용" + n)
+                                .writer("최용태" + n)
+                                .build())
                         .build())
                 .collect(Collectors.toList());
         postResponses = PostsResponse.builder()
